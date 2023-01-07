@@ -32,25 +32,14 @@ class UserProfile(models.Model):
     favourite = models.ManyToManyField(Article, related_name="favourite", null=True, blank=True)
     read_later = models.ManyToManyField(Article, related_name='read_later', null=True, blank=True)
 
-<<<<<<< HEAD
 
 
 
-=======
->>>>>>> 830b7db (blog website)
 class Comments(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     article = models.ForeignKey(Article, on_delete=models.CASCADE)
     content = models.TextField()
     created_on = models.DateTimeField(auto_now_add=True)
-<<<<<<< HEAD
 
     class Meta:
         ordering = ['created_on']
-=======
-    active = models.BooleanField(default = True)
-
-    class Meta:
-        ordering = ['created_on']
-    
->>>>>>> 830b7db (blog website)
