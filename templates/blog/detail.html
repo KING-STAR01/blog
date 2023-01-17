@@ -1,0 +1,25 @@
+{% include "blog/base.html" %}
+
+{% block body %}
+    {% if post %}
+    <div class="row">
+        <div class="col-2">left</div>
+        <div class="col-8">
+            <p class="text-center text-capitalize display-2">{{ post.title }}</p>
+            {% if post.image %}
+            <img src="{{ post.image.url }}" style="height: 550px;width: 100%;" class="img-fluid" alt="Responsive image">
+            {% endif %}
+            <div class="mt-4">
+
+                {{ post.content|safe }}
+            </div>
+
+
+
+        </div>
+        <div class="col-2">Right </div>
+    </div>
+    {% else %}
+        Something went wrong.
+    {% endif %}
+{% endblock %}

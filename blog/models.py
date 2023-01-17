@@ -13,6 +13,7 @@ class Article(models.Model):
     content = RichTextField()
     image = models.ImageField(null=True, blank=True,upload_to='images/')
     category = models.CharField(max_length=200)
+    active = models.BooleanField(default=False)
     
     class Meta:
         ordering = ['-created_on']
