@@ -8,7 +8,7 @@
 
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css"
         integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-    {% block title %}<title>Login Page</title>{% endblock %}
+    {% block title %}<title>KingStar's Blog</title>{% endblock %}
 
     <style>
     </style>
@@ -27,16 +27,22 @@
   <div class="collapse navbar-collapse h2 text-white" id="navbarText">
     <ul class="navbar-nav mr-auto">
       <li class="nav-item ml-4">
-        <a class="nav-link" href="#">DSA</a>
+        <a class="nav-link" href="{% url 'categoryview' 'dsa' %}">DSA</a>
       </li>
       <li class="nav-item ml-4">
-        <a class="nav-link" href="#">CN</a>
+        <a class="nav-link" href="{% url 'categoryview' 'cn' %}">CN</a>
       </li>
       <li class="nav-item ml-4">
-        <a class="nav-link" href="#">OS</a>
+        <a class="nav-link" href="{% url 'categoryview' 'os' %}">OS</a>
       </li>
       <li class="nav-item ml-4">
-        <a class="nav-link" href="#">DBMS</a>
+        <a class="nav-link" href="{% url 'categoryview' 'dbms' %}">DBMS</a>
+      </li>
+      <li class="nav-item ml-4">
+        <a class="nav-link" href="{% url 'categoryview' 'linux' %}">LINUX</a>
+      </li>
+      <li class="nav-item ml-4">
+        <a class="nav-link" href="{% url 'categoryview' 'others' %}">OTHERS</a>
       </li>
     </ul>
     <ul class = navbar-nav>

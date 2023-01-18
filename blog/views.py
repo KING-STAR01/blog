@@ -64,4 +64,12 @@ def signout(request):
 def send_mails(request,*args):
     send_mail('hello testing mail','iam going to be the message body', 'cprasanth4321@gmail.com',['prasanth@stockone.com'])
     return HttpResponse("mail sent successfully.")
+
+def getCategory(request, cat):
+    print("getting correctly")
+    articlelist = Article.objects.filter(category=cat)
+    print(articlelist)
+    context = {"articles" : articlelist, "category":cat}
+    return render(request, 'blog/category.html',context=context)
+
             
