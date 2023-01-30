@@ -25,7 +25,7 @@
                 <div class="containter">
                     <h2>MY POSTS</h2>
                     {% block posts %}
-                        {% include 'blog/some_posts.html' with ariticles=articles %}
+                        {% include 'blog/some_posts.html' with posts=articles %}
                     {% endblock %}
                     <!-- {% for article in articles %}
                         {% if forloop.counter < 4 %}
@@ -46,7 +46,7 @@
                 <div class="containter">
                     <h2>My Fav</h2>
                     {% block fav %}
-                        {% include 'blog/some_posts.html' with ariticles=profile.favourite.all %}
+                        {% include 'blog/some_posts.html' with posts=profile.favourite.all %}
                     {% endblock %}
                     <a href="{% url 'type' 'My Favourite Posts' %}" class="h5 btn btn-primary">ReadMore</a>
                     <hr>
@@ -55,7 +55,7 @@
                 <div class="containter">
                     <h2>Read Later Posts</h2>
                     {% block read %}
-                        {% include 'blog/some_posts.html' with ariticles=profile.read_later.all %}
+                        {% include 'blog/some_posts.html' with posts=profile.read_later.all %}
                     {% endblock %}
                     <a href="{% url 'type' 'My Read Later Posts' %}" class="h5 btn btn-primary">ReadMore</a>
 
