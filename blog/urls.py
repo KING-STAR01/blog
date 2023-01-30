@@ -13,6 +13,7 @@ urlpatterns = [
     path('create/', views.write, name="write"),
     path('profile/<int:pk>/', views.profile, name="profile"),
     path('add_fav/<slug:slug>/', views.add_to_fav, name="favourite"),
+    path('get_fav/<str:type>/', views.go_to_type, name="type"),
     path('read_later/<slug:slug>/', views.add_to_readlater, name="readlater"),
     path('add_comment/<slug:slug>/', views.add_comment, name="comment"),
     path('category/<str:cat>/', views.getCategory, name = 'categoryview'),

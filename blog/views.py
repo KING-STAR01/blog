@@ -119,6 +119,22 @@ def getCategory(request, cat):
         context["profile"] = UserProfile.objects.get(pk=request.user.id)
     return render(request, 'blog/category.html',context=context)
 
+@login_required(login_url='login')
+def go_to_type(request, type):
+    user = request.user
+    profile = UserProfile.objects.get(user = user)
+    if 'fav' in type.lower():
+        articlelist = profile.favourite.all()
+    elif 'my posts' in type.lower():
+        articlelist = Article.objects.filter(author = user)
+    else:
+        articlelist = profile.read_later.all()
+    print(articlelist)
+    context = {"articles" : articlelist, "category": type}
+    if request.user.is_authenticated:
+        context["profile"] = UserProfile.objects.get(pk=request.user.id)
+    return render(request, 'blog/category.html',context=context)
+
 
 
 
@@ -128,6 +144,7 @@ def write(request):
         fm = ArticleForm()
         print('iam a get request')
         context = {'fm':fm}
+        context['profile'] = UserProfile.objects.get(user = request.user)
         return render(request, 'blog/create.html', context=context)
     else:
         print('iam a post request')
@@ -186,6 +203,7 @@ def profile(request, pk):
     context = {'profile':user_profile, "articles":articles} 
     return render(request, 'blog/profile.html', context=context)
     #return HttpResponse(user)
+
 
 
 
