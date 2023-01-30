@@ -1,0 +1,21 @@
+{% include 'blog/base.html' %}
+
+{% block title %}<title>KingStar's Blog</title>{% endblock %}
+
+<form class ="ml-5 mt-3" action="/create/" method = "post" enctype="multipart/form-data">
+    {% csrf_token %}
+
+    {{fm.media}}
+    {{fm.as_p}}
+
+    <div class="d-grid gap-2 d-md-block py-2">
+        <button class="btn btn-primary" type="submit">Sign up</button>
+    </div>
+
+</form>
+
+
+
+{% comment %}
+  <h1>Welcome ladies and gentlemen</h1>
+{% endcomment %}

@@ -1,0 +1,16 @@
+<div class="dropdown">
+  <button class="btn btn-primary" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+    {% if profile.image %}
+    <img class="rounded-circle" src="{{ profile.image.url }}" style="height: 40px; width:40px">
+    {% else %}
+    <i class="h2 bi bi-person-circle"></i>
+    {% endif %}
+  </button>
+  <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuLink">
+    <a class="dropdown-item" href="{% url 'profile' request.user.id %}">Profile</a>
+    <a class="dropdown-item" href="#">My_Articles</a>
+    <a class="dropdown-item" href="#">My_Favs</a>
+    <a class="dropdown-item" href="#">ReadLater</a>
+    <a class="dropdown-item" href="{% url 'logout' %}">logout</a>
+  </div>
+</div>

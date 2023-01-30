@@ -31,6 +31,7 @@ SECRET_KEY = 'django-insecure-p!*er^0wo$8k!xbse@zj1#8hw(jgnjal^x-=z!h0aba)3qol%@
 DEBUG = True
 
 ALLOWED_HOSTS = []
+STATICFILES_DIRS = [os.path.join(BASE_DIR,'static'),]
 
 
 # Application definition
@@ -74,6 +75,7 @@ TEMPLATES = [
         },
     },
 ]
+
 
 WSGI_APPLICATION = 'blog_project.wsgi.application'
 

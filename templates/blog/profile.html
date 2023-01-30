@@ -1,0 +1,81 @@
+{% load static %}
+{% include "blog/base.html" %}
+
+{% block title %}<title>{{request.user}}'s blog</title>{% endblock %}
+
+{% block body %}
+    <div class="containter">
+        <div class="row mt-4 mr-0">
+            <div class="col-4 col-sm-4 col-lg-4 col-md-4 d-flex justify-content-center">
+                    <img style="height: 200px;width: 200px;" alt="Responsive image"
+                            {% if profile.image %}
+                            src="{{ profile.image.url }}"
+                            alt="Card image cap"
+                            {% else %}
+                            src="{% static 'im1.jpg' %}"
+                            alt="Card image cap1"
+                            {% endif %}
+                    >
+            </div>
+            <div class="col-8 col-sm-8 col-lg-8 col-md-8">
+                <div class="display-4 ">{{request.user}}</div>
+                <div class="display-6 text-primary">born to die</div>
+                <div class="display-4 mt-3">Articles contributed : {{ articles | length }}</div>
+                <hr>
+                <div class="containter">
+                    <h2>MY POSTS</h2>
+                    {% for article in articles %}
+                        {% if forloop.counter < 4 %}
+                        
+                        <div class = "card" style="height: 70px;">
+                            <div class="card-body d-flex justify-content-between">
+                                 <strong>{{article.title}}</strong>
+                                <a href="{% url 'detail' article.slug %}" class="h6 btn btn-primary">Read More</a>
+                            </div>
+                        </div>  
+                        </p>
+                        {% endif %}
+                    {% endfor %}
+                    <hr>
+
+                </div>
+                <div class="containter">
+                    <h2>My Fav</h2>
+                    {% for fav in profile.favourite.all %}
+                        {% if forloop.counter < 4 %}
+                        
+                        <div class = "card" style="height: 70px;">
+                            <div class="card-body d-flex justify-content-between">
+                                 <strong>{{fav.title}}</strong>
+                                <a href="{% url 'detail' fav.slug %}" class="h6 btn btn-primary">Read More</a>
+                            </div>
+                        </div>  
+                        </p>
+                        {% endif %}
+                    {% endfor %}
+                    <hr>
+
+                </div>
+                <div class="containter">
+                    <h2>MY POSTS</h2>
+                    {% for article in articles %}
+                        {% if forloop.counter < 4 %}
+                        
+                        <div class = "card" style="height: 70px;">
+                            <div class="card-body d-flex justify-content-between">
+                                 <strong>{{article.title}}</strong>
+                                <a href="{% url 'detail' article.slug %}" class="h6 btn btn-primary">Read More</a>
+                            </div>
+                        </div>  
+                        </p>
+                        {% endif %}
+                    {% endfor %}
+                    <hr>
+
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+{% endblock %}

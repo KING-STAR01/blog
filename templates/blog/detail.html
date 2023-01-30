@@ -2,7 +2,7 @@
 
 {% block body %}
     {% if post %}
-    <div class="row">
+    <div class="row mr-0">
         <div class="col-2">left</div>
         <div class="col-8">
             <p class="text-center text-capitalize display-2">{{ post.title }}</p>
@@ -13,9 +13,49 @@
 
                 {{ post.content|safe }}
             </div>
+            <br />
+            <hr />
+            <div class="mt-2">
+                <div class = "">
+                    <h3>Leave a comment</h3>
+                    <form method="post" action = "{% url 'comment' post.slug %}" style="margin-top: 1.3em;">
+                        {% csrf_token %}
+                        {{ comment_form.as_p }}
+                        <button type="submit" class="btn btn-primary">Submit</button>
+                    </form>
+                </div>
+                        <hr>
+                {% if comments %}
+                <div class="col-md-12 mb-4  mt-3 ">
+                        <!-- comments -->
+                        <h4>{{ comments.count }} comments</h4>
+
+                        {% for comment in comments %}
+                        <div class="comments" style="padding: 10px;">
+                            <div class="d-flex justify-content-between">
+
+                                <p class="font-weight-bold">
+                                        {{ comment.title }}
+                                        <span class=" text-muted font-weight-normal h6">
+                                            {{ comment.created_on }}
+                                        </span>
+                                </p>
+                                    --{{ comment.user }}
+
+
+                            </div>
+                            <div class="h3">
+                                {{ comment.content | linebreaks }}
+                            </div>
+                        </div>
+                        <hr>
+                        {% endfor %}
+                </div>
+                {% endif %}
 
 
 
+            </div>
         </div>
         <div class="col-2">Right </div>
     </div>

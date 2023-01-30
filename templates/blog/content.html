@@ -1,0 +1,35 @@
+                {% load static %}
+                {% for article in articles %} 
+                <div class="col-12 col-sm-6 col-md-6 col-lg-4 col-xl-3">
+                    <div class="card">
+                        <img class="card-img-top img-fluid" style="height: 170px;"
+                            {% if article.image %}
+                            src="{{ article.image.url }}"
+                            alt="Card image cap"
+                            {% else %}
+                            src="{% static 'im1.jpg' %}"
+                            alt="Card image cap1"
+                            {% endif %}
+                            >
+                        <div class="card-body">
+                            <h5 class="card-title h1">{{ article.title }}</h5>
+                            <p class="card-text"> {{ article.content|safe|truncatechars:50 }}</p>
+                            <div class="d-flex align-items-start justify-content-between">
+
+                            <a href="{% url 'detail'   article.slug  %}" class="btn btn-primary">Read More</a>
+                            {% if request.user.is_authenticated and article in profile.read_later.all %}
+                                <a href = "{% url 'readlater' article.slug %}"><i class="h3 bi-bookmark-fill text-info"></i></a>
+                            {% else %}
+                                <a href = "{% url 'readlater' article.slug %}"><i class="h3 bi-bookmark"></i></a>
+                            {% endif %}
+                            {% if request.user.is_authenticated and article in profile.favourite.all %}
+                                <a href = "{% url 'favourite' article.slug %}"><i class="h1 bi-heart-fill text-danger"></i></a>
+                            {% else %}
+                                <a href = "{% url 'favourite' article.slug %}"><i class="h1 bi-heart"></i></a>
+                            {% endif %}
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
