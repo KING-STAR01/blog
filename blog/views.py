@@ -3,6 +3,7 @@ from django.http import HttpResponse
 from django.http import HttpResponseRedirect
 from django.conf import settings
 from django.contrib.auth.decorators import login_required
+from django.contrib import messages # this is used for displaying messages
 
 from .models import Article, Comments, UserProfile
 from .forms import ArticleForm, CommentsForm
@@ -104,8 +105,8 @@ def signout(request):
 
 
 @login_required(login_url='login')
-def send_mails(request,*args):
-    send_mail('hello testing mail','iam going to be the message body', 'cprasanth4321@gmail.com',['prasanth@stockone.com'])
+def send_mails(request,**kwargs):
+    send_mail(kwargs['heading'], kwargs['body'], kwargs['email'], ['prasanth@stockone.com'])
     return HttpResponse("mail sent successfully.")
 
 
@@ -156,9 +157,12 @@ def write(request):
             print(post.image)
             post.author = request.user
             #remove below comment to make post visible only after review
-            #post.active = False
+            post.active = False
             post.save()
-            return redirect('detail',post.slug)
+            send_mails(request, heading = 'hey hi you got new post to approve', body = str(request.user) + " wrote a new post in " + str(post.category) + ' he is waiting for your approval', email = 'cprasanth4321@gmail.com')
+            #return HttpResponse('labe when admin approves it')
+            messages.info(request, 'Your Post will be available once admin approves it')
+            return redirect('home')
             # need to update
         else:
             return render(request, 'blog/create.html', context=context)
