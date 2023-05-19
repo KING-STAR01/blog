@@ -14,9 +14,17 @@
 <body>
   <form action="/login/", method="post">
     {% csrf_token %}
-    {{ form.as_p }}
+    <p>
+        <label class = "ml-5 mt-4" for="id_username">Username:</label>
+        <input type="text" name="username" autofocus="" autocapitalize="none" autocomplete="username" maxlength="150" required="" id="id_username">
+    </p>
+    <p>
+        <label class = "ml-5" for="id_password">Password:</label>
+        <input type="password" name="password" autocomplete="current-password" required="" id="id_password">
+    </p>    
+    <!-- {{ form.as_p }} -->
     <hr>
-    <input class="btn btn-info" type="submit" value="login">
+    <input class="ml-5 btn btn-info" type="submit" value="login">
 
   </form>  
 

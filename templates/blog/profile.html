@@ -6,20 +6,31 @@
 {% block body %}
     <div class="containter">
         <div class="row mt-4 mr-0">
-            <div class="col-4 col-sm-4 col-lg-4 col-md-4 d-flex justify-content-center">
-                    <img style="height: 200px;width: 200px;" alt="Responsive image"
-                            {% if profile.image %}
-                            src="{{ profile.image.url }}"
-                            alt="Card image cap"
-                            {% else %}
-                            src="{% static 'im1.jpg' %}"
-                            alt="Card image cap1"
-                            {% endif %}
-                    >
+            <div class="col-4 col-sm-4 col-lg-4 col-md-4">
+                <div class="container">
+                    <img style="height: 200px;width: 200px;" alt="profile_photo"
+                                {% if profile.image %}
+                                src="{{ profile.image.url }}"
+                                alt="profile_photo"
+                                {% else %}
+                                src="{% static 'im1.jpg' %}"
+                                alt="Card image cap1"
+                                {% endif %}
+                            />
+                </div>
+                <div class="container">
+                    <form action="/change_profile/" class="mt-5 justify-content-center" method="post" enctype="multipart/form-data">  
+                        {% csrf_token %}  
+                        {{ fm.as_p }}  
+                        <button type="submit">change profile</button>  
+                    </form>
+
+                </div>
+                <hr>
             </div>
             <div class="col-8 col-sm-8 col-lg-8 col-md-8">
                 <div class="display-4 ">{{request.user}}</div>
-                <div class="display-6 text-primary">born to die</div>
+                <div class="display-6 text-primary">{{ profile.bio }}</div>
                 <div class="display-4 mt-3">Articles contributed : {{ articles | length }}</div>
                 <hr>
                 <div class="containter">

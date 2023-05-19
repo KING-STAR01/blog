@@ -3,7 +3,7 @@
 {% block body %}
     {% if post %}
     <div class="row mr-0">
-        <div class="col-2">left</div>
+        <div class="col-2"></div>
         <div class="col-8">
             <p class="text-center text-capitalize display-2">{{ post.title }}</p>
             {% if post.image %}
@@ -26,11 +26,12 @@
                 </div>
                         <hr>
                 {% if comments %}
+                
                 <div class="col-md-12 mb-4  mt-3 ">
                         <!-- comments -->
                         <h4>{{ comments.count }} comments</h4>
 
-                        {% for comment in comments %}
+                        {% for comment in comments.all %}
                         <div class="comments" style="padding: 10px;">
                             <div class="d-flex justify-content-between">
 
@@ -57,7 +58,7 @@
 
             </div>
         </div>
-        <div class="col-2">Right </div>
+        <div class="col-2"></div>
     </div>
     {% else %}
         Something went wrong.

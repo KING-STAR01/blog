@@ -6,7 +6,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib import messages # this is used for displaying messages
 
 from .models import Article, Comments, UserProfile
-from .forms import ArticleForm, CommentsForm
+from .forms import ArticleForm, CommentsForm, UserProfileForm
 
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm, PasswordResetForm, PasswordChangeForm
 from django.contrib.auth import authenticate, login as loggin, logout
@@ -16,7 +16,7 @@ def home(request):
     posts = Article.objects.filter(active = True)
     context = {"articles" : posts}
     if request.user.is_authenticated:
-        context["profile"] = UserProfile.objects.get(pk=request.user.id)
+        context["profile"] = UserProfile.objects.prefetch_related('favourite','read_later').get(pk=request.user.id)
     print(settings.MEDIA_ROOT)
     return render(request, 'blog/home.html', context=context)
 
@@ -24,13 +24,13 @@ def home(request):
 
 def detailView(request, slug):
     post = Article.objects.get(slug=slug)
-    comments = post.comments.filter(active = True)
+    comments = post.comments.prefetch_related('user').filter(active = True)
     comments_form = CommentsForm()
-    print(comments)
-    print(post)
+    # print(comments)
+    # print(post)
     context = {"post":post, "comments":comments, "comment_form":comments_form}
     if request.user.is_authenticated:
-        context["profile"] = UserProfile.objects.get(pk=request.user.id)
+        context["profile"] = UserProfile.objects.prefetch_related('favourite','read_later').get(pk=request.user.id)
     return render(request, 'blog/detail.html', context=context)
 
 
@@ -57,9 +57,13 @@ def login(request):
     if request.method == "GET":
         fm = AuthenticationForm()
         context = {"form":fm}
-        return render(request, 'blog/login.html', context=context)
+        print('iam from get')
+        return render(request, 'blog/login1.html', context=context)
     else:
+        print('iam from post')
+
         fm = AuthenticationForm(data = request.POST)
+        print(request.POST)
         if fm.is_valid():
             username = fm.cleaned_data['username']
             password = fm.cleaned_data['password']
@@ -69,7 +73,7 @@ def login(request):
             return redirect('home')
         else:
             context = {"form":fm}
-            return render(request, 'blog/login.html', context=context)
+            return render(request, 'blog/login1.html', context=context)
 
 
 
@@ -77,8 +81,9 @@ def signup(request):
     if request.method == "GET":
         fm = UserCreationForm()
         context = {"form":fm}
-        return render(request, "blog/register.html", context=context)
+        return render(request, "blog/register1.html", context=context)
     else:
+        print(request.POST)
         fm = UserCreationForm(request.POST)
         if fm.is_valid():
             print(fm)
@@ -87,11 +92,11 @@ def signup(request):
                 return redirect('login')
             else:
                 context={"form":fm}
-                return render(request,'blog/register.html', context=context)
+                return render(request,'blog/register1.html', context=context)
         else:
             fm = UserCreationForm()
             context = {"form":fm}
-            return render(request, "blog/register.html", context=context)
+            return render(request, "blog/register1.html", context=context, status=401)
 
 
 
@@ -113,17 +118,17 @@ def send_mails(request,**kwargs):
 
 def getCategory(request, cat):
     print("getting correctly")
-    articlelist = Article.objects.filter(category=cat.upper()).filter(active=True)
+    articlelist = Article.objects.filter(category=cat.upper(), active = True)
     print(articlelist)
     context = {"articles" : articlelist, "category":cat}
     if request.user.is_authenticated:
-        context["profile"] = UserProfile.objects.get(pk=request.user.id)
+        context["profile"] = UserProfile.objects.prefetch_related('favourite', 'read_later').get(pk=request.user.id)
     return render(request, 'blog/category.html',context=context)
 
 @login_required(login_url='login')
 def go_to_type(request, type):
     user = request.user
-    profile = UserProfile.objects.get(user = user)
+    profile = UserProfile.objects.prefetch_related('favourite','read_later').get(user = user)
     if 'fav' in type.lower():
         articlelist = profile.favourite.all()
     elif 'my posts' in type.lower():
@@ -132,8 +137,7 @@ def go_to_type(request, type):
         articlelist = profile.read_later.all()
     print(articlelist)
     context = {"articles" : articlelist, "category": type}
-    if request.user.is_authenticated:
-        context["profile"] = UserProfile.objects.get(pk=request.user.id)
+    context["profile"] = profile
     return render(request, 'blog/category.html',context=context)
 
 
@@ -143,12 +147,10 @@ def go_to_type(request, type):
 def write(request):
     if request.method == "GET":
         fm = ArticleForm()
-        print('iam a get request')
         context = {'fm':fm}
         context['profile'] = UserProfile.objects.get(user = request.user)
         return render(request, 'blog/create.html', context=context)
     else:
-        print('iam a post request')
         print(request.POST)
         fm = ArticleForm(request.POST, request.FILES)
         context = {'fm':fm}
@@ -204,11 +206,18 @@ def profile(request, pk):
     user = request.user
     articles = Article.objects.filter(author=user)
     user_profile = UserProfile.objects.get(user=user)
-    context = {'profile':user_profile, "articles":articles} 
+    fm = UserProfileForm()
+    context = {'profile':user_profile, "articles":articles, 'fm':fm} 
     return render(request, 'blog/profile.html', context=context)
     #return HttpResponse(user)
 
 
-
-
-            
+@login_required(login_url='login')
+def change_profile_photo(request):
+    uprofile = UserProfile.objects.get(id=request.user.id)
+    print(request.FILES)
+    uprofile.image = request.FILES['image']
+    uprofile.bio = request.POST['bio']
+    uprofile.save()
+    # uprofile.image = request.FILES['image']
+    return HttpResponseRedirect(request.META.get('HTTP_REFERER'))

@@ -44,6 +44,7 @@ class UserProfile(models.Model):
     image = models.ImageField(null=True, blank=True,upload_to='images/')
     favourite = models.ManyToManyField(Article, related_name="favourite", null=True, blank=True)
     read_later = models.ManyToManyField(Article, related_name='read_later', null=True, blank=True)
+    bio = models.CharField(max_length=150, blank=True, null=True)
 
     def __str__(self):
         return str(self.user)

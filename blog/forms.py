@@ -1,5 +1,5 @@
 from django.forms import ModelForm
-from .models import Article, Comments
+from .models import Article, Comments, UserProfile
 from django import forms
 
 class ArticleForm(ModelForm):
@@ -15,5 +15,11 @@ class CommentsForm(ModelForm):
             'content': forms.Textarea(attrs={'rows':4, 'cols':65, 'class':'form-control'}),
             'title': forms.TextInput(attrs={'length':50,'class':'form-control'})
         }
+
+class UserProfileForm(ModelForm):
+
+    class Meta:
+        model = UserProfile
+        fields = ['image', 'bio']
 
     

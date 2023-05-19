@@ -17,5 +17,6 @@ urlpatterns = [
     path('read_later/<slug:slug>/', views.add_to_readlater, name="readlater"),
     path('add_comment/<slug:slug>/', views.add_comment, name="comment"),
     path('category/<str:cat>/', views.getCategory, name = 'categoryview'),
+    path('change_profile/', views.change_profile_photo, name='change_profile'),
     path('<slug:slug>/', views.detailView, name="detail"),
 ]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
