@@ -13,7 +13,7 @@
                             >
                         <div class="card-body">
                             <h5 class="card-title h1">{{ article.title }}</h5>
-                            <p class="card-text"> {{ article.content|safe|truncatechars:50 }}</p>
+                            <p class="card-text"> {{ article.content|safe|truncatechars:80 }}</p>
                             <div class="d-flex align-items-start justify-content-between">
 
                             <a href="{% url 'detail'   article.slug  %}" class="btn btn-primary">Read More</a>

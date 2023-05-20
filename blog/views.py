@@ -159,7 +159,7 @@ def write(request):
             print(post.image)
             post.author = request.user
             #remove below comment to make post visible only after review
-            post.active = False
+            # post.active = False
             post.save()
             send_mails(request, heading = 'hey hi you got new post to approve', body = str(request.user) + " wrote a new post in " + str(post.category) + ' he is waiting for your approval', email = 'cprasanth4321@gmail.com')
             #return HttpResponse('labe when admin approves it')
